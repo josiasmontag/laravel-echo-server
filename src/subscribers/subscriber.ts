@@ -6,4 +6,9 @@ export interface Subscriber {
      * @return {void}
      */
     subscribe(callback: Function): Promise<any>;
+
+    subscribeChannel(channel): Promise<any>;
+
+    unsubscribeChannel(channel): Promise<any>;
+
 }

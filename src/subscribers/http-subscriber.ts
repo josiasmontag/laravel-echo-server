@@ -93,4 +93,12 @@ export class HttpSubscriber implements Subscriber {
 
         return false;
     }
+
+    subscribeChannel(channel): Promise<any> {
+        return undefined;
+    }
+
+    unsubscribeChannel(channel): Promise<any> {
+        return undefined;
+    }
 }

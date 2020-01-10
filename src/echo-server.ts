@@ -200,6 +200,9 @@ export class EchoServer {
      */
     onSubscribe(socket: any): void {
         socket.on('subscribe', data => {
+            this.subscribers.map(subscriber => {
+                return subscriber.subscribeChannel(data.channel);
+            });
             this.channel.join(socket, data);
         });
     }
@@ -210,6 +213,9 @@ export class EchoServer {
     onUnsubscribe(socket: any): void {
         socket.on('unsubscribe', data => {
             this.channel.leave(socket, data.channel, 'unsubscribed');
+            this.subscribers.map(subscriber => {
+                return subscriber.unsubscribeChannel(data.channel);
+            });
         });
     }
 
@@ -221,6 +227,9 @@ export class EchoServer {
             Object.keys(socket.rooms).forEach(room => {
                 if (room !== socket.id) {
                     this.channel.leave(socket, room, reason);
+                    this.subscribers.map(subscriber => {
+                        return subscriber.unsubscribeChannel(room);
+                    });
                 }
             });
         });
