@@ -36,7 +36,7 @@ export class RedisSubscriber implements Subscriber {
     subscribe(callback): Promise<any> {
 
         return new Promise((resolve, reject) => {
-            this._redis.on('pmessage', (subscribed, channel, message) => {
+            this._redis.on('message', (channel, message) => {
                 try {
                     message = JSON.parse(message);
 
@@ -61,7 +61,7 @@ export class RedisSubscriber implements Subscriber {
 
         return new Promise((resolve, reject) => {
 
-            this._redis.psubscribe(`${this._keyPrefix}${channel}`, (err, count) => {
+            this._redis.subscribe(`${this._keyPrefix}${channel}`, (err, count) => {
                 if (err) {
                     reject('Redis could not subscribe.')
                 }
@@ -80,7 +80,7 @@ export class RedisSubscriber implements Subscriber {
 
         return new Promise((resolve, reject) => {
 
-            this._redis.punsubscribe(`${this._keyPrefix}${channel}`, (err, count) => {
+            this._redis.unsubscribe(`${this._keyPrefix}${channel}`, (err, count) => {
                 if (err) {
                     reject('Redis could not unsubscribe.')
                 }
